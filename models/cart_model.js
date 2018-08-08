@@ -6,6 +6,7 @@ const cartSchema = new Schema({
     id_user: String,
     nama_barang: String,
     harga: String,
+    size: String,
     jumbel: Number,
     total_harga:Number,
     img_url:String,
