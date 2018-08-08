@@ -47,7 +47,7 @@ barang_route.post('/', (req, res) => {
         var filename = file.name ;
         file.mv('./file/' + filename, (x) => {
             if(x){
-
+                
                 res.send('gagal')
 
             } else {
