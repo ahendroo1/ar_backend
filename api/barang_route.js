@@ -34,21 +34,21 @@ barang_route.get('/show_barang', (req, res) => {
 
 // url : api/barang/
 barang_route.get('/', function (req, res) {
-
     res.sendFile(__dirname + '/html/barang.html')
-
 });
 
 barang_route.post('/', (req, res) => {
+
+    // console.log(req)
+
     if(req.files){
 
-        console.log();
-        var file = req.files.filename ;
+        var file = req.files.file ;
         var filename = file.name ;
         file.mv('./file/' + filename, (x) => {
             if(x){
-                
-                res.send('gagal')
+
+                res.send(x)
 
             } else {
 
@@ -70,6 +70,7 @@ barang_route.post('/', (req, res) => {
 
     } else {
 
+        console.log('tidak ada data')
         res.send('tidak ada request')
 
     }

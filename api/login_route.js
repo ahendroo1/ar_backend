@@ -47,7 +47,6 @@ login_router.post('/', (req, res) => {
 	if (req.body.logemail && req.body.logpassword) {
 		User.findOne({ email: req.body.logemail }, (err, user) => {
 			if (user) {
-
 				if(bcrypt.compareSync(req.body.logpassword, user.password)){
 					// req.session.userId = user._id;
 					// req.session.userEmail = user.email;
@@ -94,7 +93,6 @@ login_router.get('/confirm_registrasi/:_id/:pass', (req, res) => {
 			}
 		});
 
-
 	} else {
 
 	}
@@ -117,7 +115,6 @@ login_router.post('/register', function(req, res){
 				password: bcrypt.hashSync(req.body.password, salt),
 				status: 0
 			}).save().then((data)=>{
-
 
 				var link_konfrim = 'http://temanandro.netlify.com/' + 'api/login/ ' + 'confirm_registrasi/' + data._id + '/'+ data.password ;
 				var konfirmasi_kirim = {
@@ -153,14 +150,38 @@ login_router.post('/register', function(req, res){
 	
 });
 
-login_router.get('/session', (req, res) => {
-	var data_session = req.session;
-	console.log(req.session)
-	res.send(data_session)
+login_router.post('/auth_pass', (req, res) => {
+	if (req.body.pass_auth) {
+
+		User.findOne({ password: req.body.pass_auth }, (err, user) => {
+			if (user) {
+				if(req.body.pass_auth === user.password){
+					// req.session.userId = user._id;
+					// req.session.userEmail = user.email;
+					// req.session.userUsername = user.username;
+					return res.send(user);
+				} else {
+					return res.send(err);
+				}
+				
+			} else {
+				return res.send(err)
+			}
+		});
+
+	} else {
+
+	}
 })
- 
+
 login_router.get('/logout/user', (req, res) => {
 
+	if(req.body.pass_auth){
+		console.log(req.body.pass_auth)
+	} else {
+		console.log(req.body.pass_auth)
+	}
+	
 	// req.session.destroy((response)=>{
 	// 	console.log(response)
 	// 	// console.log(data)
@@ -169,7 +190,7 @@ login_router.get('/logout/user', (req, res) => {
 	var session_userId = ()=>{
 		req.session.userOid = req.session.userId
 	};
-	
+
 	res.send(session_userId);
 })
 
